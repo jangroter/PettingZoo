@@ -478,9 +478,12 @@ Otherwise, it will apply the <cite>parallel_to_aec_wrapper</cite> to convert the
     <span class="n">observations</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">terminations</span><span class="p">,</span> <span class="n">truncations</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">parallel_env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Included PettingZoo wrappers currently do not support parallel environments, to use them you must convert your environment to AEC, apply the wrapper, and convert back to parallel.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Wrappers are specific to either the AEC or Parallel API unless documented
+otherwise. Parallel variants include <code class="docutils literal notranslate"><span class="pre">Parallel</span></code> in their name, such as
+<code class="xref py py-class docutils literal notranslate"><span class="pre">AgentIndicatorParallelV1</span></code>. To apply an AEC-only wrapper to a Parallel
+environment, convert it to AEC, apply the wrapper, and convert it back.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pettingzoo</span><span class="w"> </span><span class="kn">import</span> <span class="n">make</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pettingzoo.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClipOutOfBoundsWrapper</span>
@@ -535,6 +538,41 @@ Otherwise, it will apply the <cite>parallel_to_aec_wrapper</cite> to convert the
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ClipRewardV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ClipRewardV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/clip_reward/#ClipRewardV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ClipRewardV1" title="Link to this definition">¶</a></dt>
+<dd><p>Clips each agent’s per-step reward into <code class="docutils literal notranslate"><span class="pre">[min_reward,</span> <span class="pre">max_reward]</span></code>.</p>
+<p>After every <code class="docutils literal notranslate"><span class="pre">reset</span></code> and <code class="docutils literal notranslate"><span class="pre">step</span></code> the inner <code class="docutils literal notranslate"><span class="pre">rewards</span></code> dict is clipped and
+the running total is rebuilt from that, so <code class="xref py py-meth docutils literal notranslate"><span class="pre">last()</span></code>
+reports the sum of clipped steps. That is SuperSuit’s <code class="docutils literal notranslate"><span class="pre">clip_reward_v0</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>min_reward</strong> – Lower bound, inclusive. Default <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p></li>
+<li><p><strong>max_reward</strong> – Upper bound, inclusive. Default <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ClipRewardParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ClipRewardParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/clip_reward/#ClipRewardParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ClipRewardParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Clips each agent’s per-step reward into <code class="docutils literal notranslate"><span class="pre">[min_reward,</span> <span class="pre">max_reward]</span></code>.</p>
+<p>SuperSuit’s <code class="docutils literal notranslate"><span class="pre">clip_reward_v0</span></code> has no Parallel implementation of its own.
+This one clips the reward dict that <code class="xref py py-meth docutils literal notranslate"><span class="pre">step()</span></code> returns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>min_reward</strong> – Lower bound, inclusive. Default <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p></li>
+<li><p><strong>max_reward</strong> – Upper bound, inclusive. Default <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="pettingzoo.utils.wrappers.OrderEnforcingWrapper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">OrderEnforcingWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/order_enforcing/#OrderEnforcingWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.OrderEnforcingWrapper" title="Link to this definition">¶</a></dt>
 <dd><p>Checks if function calls or attribute access are in a disallowed order.</p>
@@ -549,6 +587,74 @@ num_agents, agents.</p>
 render(), step(), observe(), state(), agent_iter()</p></li>
 <li><p>A warning if step() is called when there are no agents remaining.</p></li>
 </ul>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.AgentIndicatorV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">AgentIndicatorV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/agent_indicator/#AgentIndicatorV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.AgentIndicatorV1" title="Link to this definition">¶</a></dt>
+<dd><p>Adds an agent indicator to each observation.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">type_only=True</span></code>, agents named <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;_&lt;n&gt;</span></code> share an indicator for
+their type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>type_only</strong> – Whether to indicate agent types instead of individual agents.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.AgentIndicatorParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">AgentIndicatorParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/agent_indicator/#AgentIndicatorParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.AgentIndicatorParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Adds an agent indicator to each observation.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">type_only=True</span></code>, agents named <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;_&lt;n&gt;</span></code> share an indicator for
+their type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>type_only</strong> – Whether to indicate agent types instead of individual agents.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ColorReductionObservationV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ColorReductionObservationV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'full'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/color_reduction/#ColorReductionObservationV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ColorReductionObservationV1" title="Link to this definition">¶</a></dt>
+<dd><p>Reduces an image observation to a single channel.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code> converts to grayscale with the luminance weights
+[0.299, 0.587, 0.114] and returns uint8 whatever the input dtype was. <code class="docutils literal notranslate"><span class="pre">&quot;R&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;G&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;B&quot;</span></code> take the named channel and keep the input dtype. Either way
+the trailing channel axis is dropped, so an (H, W, 3) observation becomes (H, W).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>mode</strong> – One of “full”, “R”, “G”, “B”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ColorReductionObservationParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ColorReductionObservationParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'full'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/color_reduction/#ColorReductionObservationParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ColorReductionObservationParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Reduces an image observation to a single channel.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code> converts to grayscale with the luminance weights
+[0.299, 0.587, 0.114] and returns uint8 whatever the input dtype was. <code class="docutils literal notranslate"><span class="pre">&quot;R&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;G&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;B&quot;</span></code> take the named channel and keep the input dtype. Either way
+the trailing channel axis is dropped, so an (H, W, 3) observation becomes (H, W).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>mode</strong> – One of “full”, “R”, “G”, “B”.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -588,6 +694,264 @@ observations. Both match SuperSuit’s <code class="docutils literal notranslate
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
 <li><p><strong>dtype</strong> – Anything <code class="docutils literal notranslate"><span class="pre">numpy.dtype</span></code> accepts, e.g. <code class="docutils literal notranslate"><span class="pre">np.float32</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.MaxObservationV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">MaxObservationV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/max_observation/#MaxObservationV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.MaxObservationV1" title="Link to this definition">¶</a></dt>
+<dd><p>Replaces each agent’s observation with the elementwise max over its last <code class="docutils literal notranslate"><span class="pre">memory</span></code> observations.</p>
+<p>This removes the flicker in environments that draw sprites on alternate frames.
+Histories are per agent and cleared on <code class="docutils literal notranslate"><span class="pre">reset</span></code>, and the observation space is
+unchanged. Only array observation spaces work: Box, MultiBinary, MultiDiscrete.
+Ported from SuperSuit’s max_observation_v0; the version suffix continues that numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>memory</strong> – How many observations to take the max over. Must be a positive int.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.MaxObservationParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">MaxObservationParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/max_observation/#MaxObservationParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.MaxObservationParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Replaces each agent’s observation with the elementwise max over its last <code class="docutils literal notranslate"><span class="pre">memory</span></code> observations.</p>
+<p>This removes the flicker in environments that draw sprites on alternate frames.
+Histories are per agent and cleared on <code class="docutils literal notranslate"><span class="pre">reset</span></code>, and the observation space is
+unchanged. Only array observation spaces work: Box, MultiBinary, MultiDiscrete.
+Ported from SuperSuit’s max_observation_v0; the version suffix continues that numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>memory</strong> – How many observations to take the max over. Must be a positive int.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.PadObservationsV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">PadObservationsV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/pad_observations/#PadObservationsV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.PadObservationsV1" title="Link to this definition">¶</a></dt>
+<dd><p>Pads each agent’s observation up to one shared observation space.</p>
+<p>The shared space covers the observation spaces of <code class="docutils literal notranslate"><span class="pre">possible_agents</span></code>. For Box
+spaces it takes the largest size along each axis, and each observation is padded
+with zeros at the end of every axis, so the real values stay at the front. For
+Discrete spaces it takes the range covering all of them and observations pass
+through unchanged. Every agent then reports that same space.</p>
+<p>Box spaces have to agree on dtype and number of dimensions. Anything other than Box
+and Discrete is rejected.</p>
+<p>An agent whose observation is already the full shape gets the array back without a
+copy, so writing into it writes into the environment.</p>
+<p>Ported from SuperSuit’s pad_observations_v0; the version suffix continues that
+numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>env</strong> – The AEC environment to wrap.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.PadObservationsParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">PadObservationsParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/pad_observations/#PadObservationsParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.PadObservationsParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Pads each agent’s observation up to one shared observation space.</p>
+<p>The shared space covers the observation spaces of <code class="docutils literal notranslate"><span class="pre">possible_agents</span></code>. For Box
+spaces it takes the largest size along each axis, and each observation is padded
+with zeros at the end of every axis, so the real values stay at the front. For
+Discrete spaces it takes the range covering all of them and observations pass
+through unchanged. Every agent then reports that same space.</p>
+<p>Box spaces have to agree on dtype and number of dimensions. Anything other than Box
+and Discrete is rejected.</p>
+<p>An agent whose observation is already the full shape gets the array back without a
+copy, so writing into it writes into the environment.</p>
+<p>Ported from SuperSuit’s pad_observations_v0; the version suffix continues that
+numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>env</strong> – The parallel environment to wrap.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.RescaleObservationV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">RescaleObservationV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/rescale_observation/#RescaleObservationV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.RescaleObservationV1" title="Link to this definition">¶</a></dt>
+<dd><p>Linearly rescales each agent’s Box observation into a fixed range.</p>
+<p>Every element is mapped from its own <code class="docutils literal notranslate"><span class="pre">[low,</span> <span class="pre">high]</span></code> in the wrapped space onto
+<code class="docutils literal notranslate"><span class="pre">[min_obs,</span> <span class="pre">max_obs]</span></code>, and the result is clipped so it always sits inside the
+advertised space. The wrapped space has to be a float Box whose elements all
+have finite <code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> with <code class="docutils literal notranslate"><span class="pre">high</span> <span class="pre">&gt;</span> <span class="pre">low</span></code>, since anything else
+gives nothing to scale from. Every space in <code class="docutils literal notranslate"><span class="pre">possible_agents</span></code> is checked
+when the wrapper is built.</p>
+<p>Ported from SuperSuit’s normalize_obs_v0; the version suffix continues that numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>min_obs</strong> – Lower bound of the rescaled observations.</p></li>
+<li><p><strong>max_obs</strong> – Upper bound of the rescaled observations.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.RescaleObservationParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">RescaleObservationParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/rescale_observation/#RescaleObservationParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.RescaleObservationParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Linearly rescales each agent’s Box observation into a fixed range.</p>
+<p>Every element is mapped from its own <code class="docutils literal notranslate"><span class="pre">[low,</span> <span class="pre">high]</span></code> in the wrapped space onto
+<code class="docutils literal notranslate"><span class="pre">[min_obs,</span> <span class="pre">max_obs]</span></code>, and the result is clipped so it always sits inside the
+advertised space. The wrapped space has to be a float Box whose elements all
+have finite <code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> with <code class="docutils literal notranslate"><span class="pre">high</span> <span class="pre">&gt;</span> <span class="pre">low</span></code>, since anything else
+gives nothing to scale from. Every space in <code class="docutils literal notranslate"><span class="pre">possible_agents</span></code> is checked
+when the wrapper is built.</p>
+<p>Ported from SuperSuit’s normalize_obs_v0; the version suffix continues that numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>min_obs</strong> – Lower bound of the rescaled observations.</p></li>
+<li><p><strong>max_obs</strong> – Upper bound of the rescaled observations.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ReshapeObservationV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ReshapeObservationV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/reshape/#ReshapeObservationV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ReshapeObservationV1" title="Link to this definition">¶</a></dt>
+<dd><p>Reshapes each agent’s observation to the given shape.</p>
+<p>The observation space is reshaped the same way, so per-element bounds are kept.
+Only works on Box observation spaces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>shape</strong> – The new observation shape. Must have as many elements as the old one.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ReshapeObservationParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ReshapeObservationParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/reshape/#ReshapeObservationParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ReshapeObservationParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Reshapes each agent’s observation to the given shape.</p>
+<p>The observation space is reshaped the same way, so per-element bounds are kept.
+Only works on Box observation spaces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>shape</strong> – The new observation shape. Must have as many elements as the old one.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ScaleActionV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ScaleActionV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/scale_action/#ScaleActionV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ScaleActionV1" title="Link to this definition">¶</a></dt>
+<dd><p>Scales the bounds of each agent’s Box action space by a constant factor.</p>
+<p>The action space this wrapper advertises has <code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> multiplied by
+<code class="docutils literal notranslate"><span class="pre">scale</span></code>. Actions are divided by <code class="docutils literal notranslate"><span class="pre">scale</span></code> before they reach the wrapped
+environment, so an action drawn from the advertised space is a valid action for
+the wrapped environment. Actions on a bound of the advertised space are clipped
+to the wrapped bound, since the round trip through <code class="docutils literal notranslate"><span class="pre">scale</span></code> is not exact in
+floating point. An action outside the advertised space is passed through as is.</p>
+<p>Scaling an integer Box narrows what can be reached: at <code class="docutils literal notranslate"><span class="pre">scale</span></code> 0.5, a
+<code class="docutils literal notranslate"><span class="pre">Box(0,</span> <span class="pre">10,</span> <span class="pre">dtype=int64)</span></code> advertises <code class="docutils literal notranslate"><span class="pre">Box(0,</span> <span class="pre">5)</span></code> and only even actions are
+reachable. A bound large enough that <code class="docutils literal notranslate"><span class="pre">bound</span> <span class="pre">*</span> <span class="pre">scale</span></code> overflows the dtype
+becomes infinite, and actions there stay infinite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>scale</strong> – Non-zero factor applied to the action space bounds. A negative
+scale flips the bounds, so they are swapped to keep the Box valid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.ScaleActionParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">ScaleActionParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/scale_action/#ScaleActionParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.ScaleActionParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Scales the bounds of each agent’s Box action space by a constant factor.</p>
+<p>The action space this wrapper advertises has <code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> multiplied by
+<code class="docutils literal notranslate"><span class="pre">scale</span></code>. Actions are divided by <code class="docutils literal notranslate"><span class="pre">scale</span></code> before they reach the wrapped
+environment, so an action drawn from the advertised space is a valid action for
+the wrapped environment. Actions on a bound of the advertised space are clipped
+to the wrapped bound, since the round trip through <code class="docutils literal notranslate"><span class="pre">scale</span></code> is not exact in
+floating point. An action outside the advertised space is passed through as is.</p>
+<p>Scaling an integer Box narrows what can be reached: at <code class="docutils literal notranslate"><span class="pre">scale</span></code> 0.5, a
+<code class="docutils literal notranslate"><span class="pre">Box(0,</span> <span class="pre">10,</span> <span class="pre">dtype=int64)</span></code> advertises <code class="docutils literal notranslate"><span class="pre">Box(0,</span> <span class="pre">5)</span></code> and only even actions are
+reachable. A bound large enough that <code class="docutils literal notranslate"><span class="pre">bound</span> <span class="pre">*</span> <span class="pre">scale</span></code> overflows the dtype
+becomes infinite, and actions there stay infinite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>scale</strong> – Non-zero factor applied to the action space bounds. A negative
+scale flips the bounds, so they are swapped to keep the Box valid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.StickyActionV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">StickyActionV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../aec/#pettingzoo.utils.env.AECEnv" title="pettingzoo.utils.env.AECEnv"><span class="pre">AECEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_action_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/sticky_action/#StickyActionV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.StickyActionV1" title="Link to this definition">¶</a></dt>
+<dd><p>Repeats an agent’s previous action with probability <code class="docutils literal notranslate"><span class="pre">repeat_action_probability</span></code>.</p>
+<p>Each agent keeps its own previous action, and an agent has nothing to repeat
+until it has acted once since the last <code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code>, so the first action
+after a reset is always passed through. Only this wrapper’s own reset clears
+the memory: an environment that auto-resets underneath it, such as
+<code class="docutils literal notranslate"><span class="pre">MultiEpisodeParallelEnv</span></code> on the inside, can still have the first action of
+a later episode repeated. The remembered action is a deep copy, so reusing an
+action buffer between steps does not defeat the wrapper.</p>
+<p>Seeding follows the usual PettingZoo pattern: <code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code> reseeds from the
+seed it is given, which means <code class="docutils literal notranslate"><span class="pre">reset(seed=None)</span></code> starts a fresh unseeded
+stream. Pass a seed on every reset if you want a whole multi-episode run to
+be reproducible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The AEC environment to wrap.</p></li>
+<li><p><strong>repeat_action_probability</strong> – Probability of using the previous action,
+in the interval [0, 1).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pettingzoo.utils.wrappers.StickyActionParallelV1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pettingzoo.utils.wrappers.</span></span><span class="sig-name descname"><span class="pre">StickyActionParallelV1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../parallel/#pettingzoo.utils.env.ParallelEnv" title="pettingzoo.utils.env.ParallelEnv"><span class="pre">ParallelEnv</span></a><span class="p"><span class="pre">[</span></span><span class="pre">AgentID</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ObsType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ActionType</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_action_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pettingzoo/utils/wrappers/sticky_action/#StickyActionParallelV1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pettingzoo.utils.wrappers.StickyActionParallelV1" title="Link to this definition">¶</a></dt>
+<dd><p>Repeats an agent’s previous action with probability <code class="docutils literal notranslate"><span class="pre">repeat_action_probability</span></code>.</p>
+<p>Each agent keeps its own previous action, and an agent has nothing to repeat
+until it has acted once since the last <code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code>, so the first action
+after a reset is always passed through. Only this wrapper’s own reset clears
+the memory: an environment that auto-resets underneath it, such as
+<code class="docutils literal notranslate"><span class="pre">MultiEpisodeParallelEnv</span></code> on the inside, can still have the first action of
+a later episode repeated. The remembered action is a deep copy, so reusing an
+action buffer between steps does not defeat the wrapper.</p>
+<p>Seeding follows the usual PettingZoo pattern: <code class="xref py py-meth docutils literal notranslate"><span class="pre">reset()</span></code> reseeds from the
+seed it is given, which means <code class="docutils literal notranslate"><span class="pre">reset(seed=None)</span></code> starts a fresh unseeded
+stream. Pass a seed on every reset if you want a whole multi-episode run to
+be reproducible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – The parallel environment to wrap.</p></li>
+<li><p><strong>repeat_action_probability</strong> – Probability of using the previous action,
+in the interval [0, 1).</p></li>
 </ul>
 </dd>
 </dl>
@@ -683,9 +1047,27 @@ observations. Both match SuperSuit’s <code class="docutils literal notranslate
 <li><a class="reference internal" href="#pettingzoo.utils.wrappers.CaptureStdoutWrapper"><code class="docutils literal notranslate"><span class="pre">CaptureStdoutWrapper</span></code></a></li>
 <li><a class="reference internal" href="#pettingzoo.utils.wrappers.AssertOutOfBoundsWrapper"><code class="docutils literal notranslate"><span class="pre">AssertOutOfBoundsWrapper</span></code></a></li>
 <li><a class="reference internal" href="#pettingzoo.utils.wrappers.ClipOutOfBoundsWrapper"><code class="docutils literal notranslate"><span class="pre">ClipOutOfBoundsWrapper</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ClipRewardV1"><code class="docutils literal notranslate"><span class="pre">ClipRewardV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ClipRewardParallelV1"><code class="docutils literal notranslate"><span class="pre">ClipRewardParallelV1</span></code></a></li>
 <li><a class="reference internal" href="#pettingzoo.utils.wrappers.OrderEnforcingWrapper"><code class="docutils literal notranslate"><span class="pre">OrderEnforcingWrapper</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.AgentIndicatorV1"><code class="docutils literal notranslate"><span class="pre">AgentIndicatorV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.AgentIndicatorParallelV1"><code class="docutils literal notranslate"><span class="pre">AgentIndicatorParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ColorReductionObservationV1"><code class="docutils literal notranslate"><span class="pre">ColorReductionObservationV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ColorReductionObservationParallelV1"><code class="docutils literal notranslate"><span class="pre">ColorReductionObservationParallelV1</span></code></a></li>
 <li><a class="reference internal" href="#pettingzoo.utils.wrappers.DtypeObservationV1"><code class="docutils literal notranslate"><span class="pre">DtypeObservationV1</span></code></a></li>
 <li><a class="reference internal" href="#pettingzoo.utils.wrappers.DtypeObservationParallelV1"><code class="docutils literal notranslate"><span class="pre">DtypeObservationParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.MaxObservationV1"><code class="docutils literal notranslate"><span class="pre">MaxObservationV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.MaxObservationParallelV1"><code class="docutils literal notranslate"><span class="pre">MaxObservationParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.PadObservationsV1"><code class="docutils literal notranslate"><span class="pre">PadObservationsV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.PadObservationsParallelV1"><code class="docutils literal notranslate"><span class="pre">PadObservationsParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.RescaleObservationV1"><code class="docutils literal notranslate"><span class="pre">RescaleObservationV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.RescaleObservationParallelV1"><code class="docutils literal notranslate"><span class="pre">RescaleObservationParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ReshapeObservationV1"><code class="docutils literal notranslate"><span class="pre">ReshapeObservationV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ReshapeObservationParallelV1"><code class="docutils literal notranslate"><span class="pre">ReshapeObservationParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ScaleActionV1"><code class="docutils literal notranslate"><span class="pre">ScaleActionV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.ScaleActionParallelV1"><code class="docutils literal notranslate"><span class="pre">ScaleActionParallelV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.StickyActionV1"><code class="docutils literal notranslate"><span class="pre">StickyActionV1</span></code></a></li>
+<li><a class="reference internal" href="#pettingzoo.utils.wrappers.StickyActionParallelV1"><code class="docutils literal notranslate"><span class="pre">StickyActionParallelV1</span></code></a></li>
 </ul>
 </li>
 </ul>
